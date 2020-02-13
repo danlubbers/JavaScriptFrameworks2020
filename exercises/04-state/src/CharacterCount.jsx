@@ -10,7 +10,7 @@ const CharacterCount = () => {
   return (
     <>
       <p>Records the amount of words you type!</p>
-      <textarea name="" id="" cols="75" rows="2" onChange={textCount}></textarea>
+      <textarea cols="75" rows="2" onChange={textCount}></textarea>
       <p>Character Count: {text.length}</p>
     </>
   )
