@@ -1,5 +1,5 @@
 {
-  "name": "03-conditional-rendering",
+  "name": "06-grocery-list",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
