@@ -5,23 +5,41 @@ import countries from './assets/countries.json';
 import states from './assets/states.json';
 
 function App() {
-  const [values, setValues] = useState({
-    firstName: '',
-    lastName: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: ''
-  });
-
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [zip, setZip] = useState('');
+  const [country, setCountry] = useState('');
   const [form, setForm] = useState(false);
 
-  const handleValues = e => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value
-    });
+  const handleFirstName = e => {
+    setFirstName(e.target.value);
+  }
+  
+  const handleLastName = e => {
+    setLastName(e.target.value);
+  }
+  
+  const handleAddress = e => {
+    setAddress(e.target.value);
+  }
+  
+  const handleCity = e => {
+    setCity(e.target.value);
+  }
+  
+  const handleState = e => {
+    setState(e.target.value);
+  }
+  
+  const handleZip = e => {
+    setZip(e.target.value);
+  }
+  
+  const handleCountry = e => {
+    setCountry(e.target.value);
   }
 
   const handleSubmit = e => {
@@ -30,12 +48,15 @@ function App() {
   }
   
   useEffect(() => {
-    // console.log(values.firstName)
-    // console.log(values.address)
-    // console.log(values.zip)
-  }, [form])
-
-const {firstName, lastName, address, city, state, zipCode, country} = values;
+    // console.log(firstName)
+    // console.log(lastName)
+    // console.log(address)
+    // console.log(city)
+    // console.log(state)
+    // console.log(zip)
+    // console.log(country)
+    // console.log(form)
+  }, [firstName, lastName, address, city, state, zip, country, form])
 
   return (
 
@@ -52,8 +73,7 @@ const {firstName, lastName, address, city, state, zipCode, country} = values;
             name="firstName"
             type="text"
             className="form-control"
-            value={values.firstName}
-            onChange={handleValues}
+            onBlur={handleFirstName}
           />
         </div>
         <div className="form-group">
@@ -65,8 +85,7 @@ const {firstName, lastName, address, city, state, zipCode, country} = values;
             name="lastName"
             type="text"
             className="form-control"
-            value={values.lastName}
-            onChange={handleValues}
+            onBlur={handleLastName}
           />
         </div>
         <div className="form-group">
@@ -74,12 +93,11 @@ const {firstName, lastName, address, city, state, zipCode, country} = values;
             Address Line 1
           </label>
           <input
-            id="address"
-            name="address"
+            id="addressLine1"
+            name="addressLine1"
             type="text"
             className="form-control"
-            value={values.address}
-            onChange={handleValues}
+            onBlur={handleAddress}
           />
           <p className="help-block text-muted">
             Street Address, P.O. Box, Company Name, C/O
@@ -90,14 +108,14 @@ const {firstName, lastName, address, city, state, zipCode, country} = values;
           <label htmlFor="city" className="control-label">
             City / Town
           </label>
-          <input id="city" name="city" type="text" className="form-control" value={values.city} onChange={handleValues}/>
+          <input id="city" name="city" type="text" className="form-control" onBlur={handleCity}/>
         </div>
         <div className="form-group">
           <label htmlFor="state" className="control-label">
             State / Province / Region
           </label>
           {/* Loop through the states you imported here */}
-          <select id="state" name="state" className="form-control" value={values.state} onChange={handleValues}>
+          <select id="state" name="state" className="form-control" onChange={handleState}>
             <option value="">Please choose an State</option>
               {states.map((state, i) => {
               return (
@@ -112,12 +130,11 @@ const {firstName, lastName, address, city, state, zipCode, country} = values;
             Zip / Postal Code
           </label>
           <input
-            id="zipCode"
-            name="zipCode"
+            id="postalCode"
+            name="postalCode"
             type="text"
             className="form-control"
-            value={values.zipCode}
-            onChange={handleValues}
+            onBlur={handleZip}
           />
         </div>
 
@@ -126,7 +143,7 @@ const {firstName, lastName, address, city, state, zipCode, country} = values;
             Country
           </label>
           {/* Loop through the countries you imported here */}
-          <select id="country" name="country" className="form-control" value={values.country} onChange={handleValues}>
+          <select id="country" name="country" className="form-control" onChange={handleCountry}>
             <option value="">Please choose a Country</option>
             {countries.map((country, i) => {
               return (
@@ -153,7 +170,7 @@ const {firstName, lastName, address, city, state, zipCode, country} = values;
                 <li><strong>Address:</strong> {address}</li>
                 <li><strong>City:</strong> {city}</li>
                 <li><strong>State:</strong> {state}</li>
-                <li><strong>Zip Code:</strong> {zipCode}</li>
+                <li><strong>Zip Code:</strong> {zip}</li>
                 <li><strong>Country:</strong> {country}</li>
               </ul>
             </div>
