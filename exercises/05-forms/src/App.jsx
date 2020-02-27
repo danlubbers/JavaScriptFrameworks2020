@@ -30,12 +30,7 @@ function App() {
   }
   
   useEffect(() => {
-    // console.log(values.firstName)
-    // console.log(values.address)
-    // console.log(values.zip)
   }, [form])
-
-const {firstName, lastName, address, city, state, zipCode, country} = values;
 
   return (
 
@@ -146,15 +141,10 @@ const {firstName, lastName, address, city, state, zipCode, country} = values;
       <div>
           {form && (
             <div className="card card-body bg-light mt-4 mb-4">
-      
               <ul className="list-unstyled mb-0">
-                <li><strong>First Name:</strong> {firstName}</li>
-                <li><strong>Last Name:</strong> {lastName}</li>
-                <li><strong>Address:</strong> {address}</li>
-                <li><strong>City:</strong> {city}</li>
-                <li><strong>State:</strong> {state}</li>
-                <li><strong>Zip Code:</strong> {zipCode}</li>
-                <li><strong>Country:</strong> {country}</li>
+                {Object.values(values).map((value, i) => {
+                  return <li key={`value-${i}`}>{value}</li>
+                })}
               </ul>
             </div>
           )}
