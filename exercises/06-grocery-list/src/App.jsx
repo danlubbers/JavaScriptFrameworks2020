@@ -1,45 +1,71 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
+import React, { useState } from 'react';
+import './App.css';
 
 const GroceryList = () => {
-  const [list, setList] = useState([
-    ['Avocado', 2.50], 
-    ['Juice', 5.00]
-  ]);
-  const [item, setItem] = useState('');
-  const [cost, setCost] = useState(0);
-  const [isValid, setIsValid] = useState(true);
-  
-  const deleteItem = index => {
-    console.log(index)
-    setList(
-      list.filter((item, currentIndex) => currentIndex !== index)
-      );
-  }
-  
+  /**
+   * @constant {array} gorceryList array of nested objects, where each object represents something in a list
+   * @example
+   * [
+   *    {
+   *      name: "bananas",
+   *      cost: 2.99
+   *    },
+   *    {
+   *      name: "apples",
+   *      cost: 1.99
+   *    }
+   * ]
+   */
+  const [groceryList, setGroceryList] = useState([]);
+  /**
+   * @constant name what the user is typing in the "Name of grocery item..." textbox
+   */
+  const [name, setName] = useState("");
+  /**
+   * @constant name what the user is typing in the "Cost of grocery Item..." textbox
+   */
+  const [cost, setCost] = useState("");
+  /**
+   * @constant hasError whether or not to display the "Both fields are required." error
+   */
+  const [hasError, setHasError] = useState(false);
+
+  const addToList = () => {
+    /**
+     * Adds new item and cost to groceryList
+     */
+    setGroceryList([...groceryList, 
+      {
+        name, 
+        cost: +cost // Converts string to number to prevent TypeErrors with calcTotal()
+      }
+    ]);
+    setName(''); // clears state
+    setCost('') // clears state
+  };
+
+  const deleteFromList = indexToDelete => {
+    setGroceryList([...groceryList].filter((e, i) => i !== indexToDelete))
+  };
+
+  const clearList = () => setGroceryList([]);
+
+  const calcTotal = () => {
+    return groceryList.reduce((acc, currVal) => acc + currVal.cost, 0);
+  };
+
   const handleSubmit = e => {
-   e.preventDefault();
-   setList([...list, [item, cost]]);
-
-   const elements = [...e.target.elements].filter(e => {
-     return e.matches('input');
-   })
-   console.log(elements)
-
-   elements.forEach(e => {
-     if(e.value) {
-       e.classList.remove('error')
-     } else {
-       setIsValid(false);
-       e.classList.add('error')
-     }
-   })
-   if(!isValid) return;
+    e.preventDefault();
+    /**
+     * If both the grocery name and cost are filled out
+     */
+    if(name && (cost || cost === 0)) {
+      addToList();
+      setHasError(false);
+    } else {
+      setHasError(true) // both fields are required
+    }
   }
-
-  useEffect(() => {
-    console.log(list)
-  }, [list])
 
   return (
     <div className="container">
@@ -50,24 +76,28 @@ const GroceryList = () => {
             type="text"
             placeholder="Name of grocery item..."
             aria-label="Name of grocery item..."
-            value={item}
-            onChange={e => setItem(e.target.value)}            
-            />
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
           <input
             className="form-control"
             type="number"
             min="0"
             step=".01"
             placeholder="Cost of grocery Item..."
-            aria-label="Cost of grocery Item..."                
-            onChange={e => setCost(e.target.value)}                   
+            aria-label="Cost of grocery Item..."
+            value={cost}
+            onChange={e => setCost(parseFloat(e.target.value))}
           />
           <div>
-            <button type="submit" className="btn btn-success" >
+            <button type="submit" className="btn btn-success">
               Add
             </button>
           </div>
         </form>
+        {hasError && (
+          <p className="help-block text-danger">Both fields are required.</p>
+        )}
       </div>
       <div className="card card-body border-white">
         <h1 className="h4">Grocery List</h1>
@@ -79,33 +109,57 @@ const GroceryList = () => {
               <th></th>
             </tr>
           </thead>
-                {list.map((item, index) => {
-                  return (
-                      <tbody>
-                        <tr key={index}>
-                          <td>{item[0]}</td>
-                          <td>${item[1]}</td>
-                          <td>
-                            <button aria-label='Delete' title='Delete' onClick={() => deleteItem(index)}>&times;</button>
-                          </td>
-                        </tr>
-                      </tbody>                    
-                  )
-                })}
+          <tbody>
+            {/**
+             * Complete me. (You can use something else instead of a table if you like)
+             * @example
+             * <tr>
+             *   <td>Toilet Paper</td>
+             *   <td>$1.99</td>
+             *   <td>
+             *     <button aria-label="Delete" title="Delete" ... >
+             *       &times;
+             *     </button>
+             *   </td>
+             * </tr>
+             */}
+            {groceryList.map((item, index) => {
+              return (
+                <tr key={`item-${item}`}>
+                  <td>{item.name}</td>
+                  <td>${item.cost.toFixed(2)}</td>
+                  <td>
+                    <button
+                      aria-label="Delete"
+                      title="Delete"
+                      className="btn"
+                      onClick={() => deleteFromList(index)}
+                    >
+                      &times;
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
         <p className="lead">
-          <strong>Total Cost: 
-            {` $${list.reduce((acc, curr) => acc + +curr[1], 0).toFixed(2)}`} 
-          </strong>
+          <strong>Total Cost: ${calcTotal().toFixed(2)}</strong>
         </p>
         <div className="text-right">
-          <button type="button" className="btn btn-outline-success" onClick={_=> setList([])}>
+          <button
+            type="button"
+            className="btn btn-outline-success"
+            onClick={clearList}
+          >
             Clear
           </button>
         </div>
       </div>
     </div>
   );
+
+
 };
 
 export default GroceryList;
