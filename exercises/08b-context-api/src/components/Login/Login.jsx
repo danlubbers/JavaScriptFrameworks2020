@@ -1,7 +1,8 @@
 // Import what you need from React
-import React from "react";
+import React, { useContext } from "react";
 import translations from "./LoginTranslations.json";
 // Import "TranslatorContext"
+import TranslatorContext from '../../contexts/TranslatorContext';
 
 function Language() {
   /**
@@ -13,7 +14,8 @@ function Language() {
   /**
    * Replace "en" with a constant or variable.
    */
-  const t = translations["en"];
+  const [language] = useContext(TranslatorContext)
+  const t = translations[language];
 
   /**
    * You do not have to change anything below this line.
