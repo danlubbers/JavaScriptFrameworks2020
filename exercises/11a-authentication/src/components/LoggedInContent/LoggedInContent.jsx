@@ -15,7 +15,7 @@ function LoggedInContent(props) {
       <div className="d-flex justify-content-between">
         <h1 className="h2">You are logged in!</h1>
         {/* Make this button functional */}
-        <button className="btn btn-primary">Logout</button>
+        <button className="btn btn-primary" onClick={props.logout}>Logout</button>
       </div>
       <p>
         Notice that when you refresh the page, you are still logged in. That's
