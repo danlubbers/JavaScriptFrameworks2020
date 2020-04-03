@@ -1,5 +1,8 @@
 // You may need to import additional things here
 import React, { useState } from "react";
+import axios from 'axios';
+import { useEffect } from "react";
+import Cookies from 'js-cookie';
 
 function LoggedInContent(props) {
   const [movies, setMovies] = useState({});
@@ -9,6 +12,18 @@ function LoggedInContent(props) {
    * Make an AJAX request to http://localhost:7000/jwt/movies to get a list of movies.
    * Be sure to provide the token in the AJAX request.
    */
+  const token = localStorage.getItem("token")
+
+   useEffect(() => {
+     const uuid = Cookies.get('token')
+     axios(`http://localhost:7000/cookie/movies`, {
+       params: {
+         id: uuid
+       }
+     })
+     .then(res => setMovies(res.data))
+     .catch(err => setErrorMessage(err.response.data.message))
+   }, [token])
 
   return (
     <div className="container mt-2 mb-5">

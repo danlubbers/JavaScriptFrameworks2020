@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LoggedInContent from "../LoggedInContent/LoggedInContent";
 // You may need to import additional things here
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function App() {
   /**
@@ -22,16 +23,17 @@ function App() {
   /**
    * You may need to add more things to state
    */
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(!!Cookies.get('token'));
 
   const login = token => {
-    localStorage.setItem('token', token);
+    // localStorage.setItem('token', token);
+    Cookies.set("token", token, { expires: 1})
     setIsUserLoggedIn(true);
     setIsLoading(false);
   };
   
   const logout = () => {
-    localStorage.removeItem('token')
+    Cookies.removeItem('token')
     setIsUserLoggedIn(false);
   };
 
@@ -39,15 +41,20 @@ function App() {
     e.preventDefault();
     setIsLoading(true);
 
-    axios("http://localhost:7000/jwt/login", {
-      method: "POST", 
+    axios("http://localhost:7000/cookie/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }, 
       data: {
         username, 
         password
-      }
+      },
     })
-      .then(res => login(res.data.token))
-      .catch(err => setErrorMessage(err.response.data.message));
+      .then(res => login(res.data.uuid))
+      .catch(err => setErrorMessage(err.response.data.message))
+      // This line allows for the login button be abled again after incorrect login
+      .then(res => setIsLoading(false));
   };
 
   /**
