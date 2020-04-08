@@ -31,16 +31,22 @@ export default class App extends Component {
   };
 
   render() {
+
+    // Destructure off this.state
+    const {isLoading, hasError, errorMessage, quote} = this.state; 
     
     return (
       <div>
-        {this.state.isLoading && <p>Loading...</p>}     
 
-        {this.state.hasError 
+        {/* If isLoading is true show Loading */}
+        {isLoading && <p>Loading...</p>}     
+
+        {/* If hasError is true, show error else show quote */}
+        {hasError 
           ? 
-          <p style={{color: 'red'}}>ERROR MESSAGE: {this.state.errorMessage}</p>
+          <p style={{color: 'red'}}>ERROR MESSAGE: {errorMessage}</p>
           :
-          <p>{this.state.quote}</p>
+          <p>{quote}</p>
         }      
       </div>
     )
