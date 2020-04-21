@@ -39,8 +39,8 @@ function App( {history} ) {
 
     } catch(err) {
       setHasError(true);
-      setErrorMessage(err.response.data.message)
-      console.error(err.response.data.message)
+      setErrorMessage('Error')
+      console.error(err)
 
     }
   }

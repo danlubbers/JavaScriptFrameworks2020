@@ -7,7 +7,6 @@ export const ProtectedRoute = ({
     ...rest
 
 }) => {
-
   const [uuid] = useContext(CookieContext);
 
   return (
