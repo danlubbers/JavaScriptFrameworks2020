@@ -10,9 +10,14 @@ import React, { Component, useState } from "react";
 import ListItem from "./ListItem/ListItem";
 
 function Todo(props) {
+<<<<<<< HEAD
   console.log(props)
   const [userInput, setUserInput] = useState("");
   const [todos, setTodos] = useState(props.todos);
+=======
+  const [userInput, setUserInput] = useState("");
+  const [todos, setTodos] = useState([]);
+>>>>>>> 40892a105b1f14e293b4ffba867e2c03f2f69716
 
   /**
    * This will be passed down from the container as props instead
@@ -37,7 +42,11 @@ function Todo(props) {
   return (
     <div className="mt-4">
       <h1 className="h3">Todo List</h1>
+<<<<<<< HEAD
       <form className="form-group" onSubmit={props.addTodo}>
+=======
+      <form className="form-group" onSubmit={addTodo}>
+>>>>>>> 40892a105b1f14e293b4ffba867e2c03f2f69716
         <div className="input-group mb-3">
           <input
             type="text"
@@ -60,7 +69,11 @@ function Todo(props) {
         {todos.map((text, index) => {
           const key = `todo-item-${index}`;
           return (
+<<<<<<< HEAD
             <ListItem deleteTodo={props.deleteTodo} todoIndex={index} key={key}>
+=======
+            <ListItem deleteTodo={deleteTodo} todoIndex={index} key={key}>
+>>>>>>> 40892a105b1f14e293b4ffba867e2c03f2f69716
               {text}
             </ListItem>
           );
